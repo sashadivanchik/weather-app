@@ -5,7 +5,5 @@ import './styles/scss.scss';
 import getLocation from './js/geolocation';
 
 window.addEventListener('load', () => {
-  if (navigator.geolocation) {
-    getLocation();
-  }  
+  getLocation();
 });
