@@ -41,7 +41,5 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
   },
-  "dependencies": {
-    "normalize.css": "^8.0.1"
-  }
+  "dependencies": {}
 }
