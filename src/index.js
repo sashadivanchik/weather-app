@@ -2,8 +2,10 @@
 import './styles/reset.css';
 import './styles/styles.css';
 import './styles/scss.scss';
+import getLocation from './js/geolocation';
 
 window.addEventListener('load', () => {
-  console.log('load');
-  console.log('11111111')
+  if (navigator.geolocation) {
+    getLocation();
+  }  
 });
