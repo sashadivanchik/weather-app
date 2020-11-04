@@ -48,7 +48,7 @@ const weather = (weather) => {
 const forecast = (forecast) => {
     const weekly = forecast.list.filter(reading => reading.dt_txt.includes(time));
 
-    for (let i = 1; i < weekly.length; i++) {
+    for (let i = 0; i < weekly.length - 1; i++) {
         const item = document.createElement('li');
         item.className = 'current-city__item'
         item.innerHTML = weeklyDay(weekly[i]);
