@@ -1,4 +1,4 @@
-import { createCityByCoordinates } from "./createCity";
+import { createCityByCoordinates } from "./createCityByCoordinates";
 
 const error = (e) => {
   console.log(`Произошла ошибка: ${e}`);
