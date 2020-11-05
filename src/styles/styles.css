@@ -5,6 +5,10 @@ body {
     height: 100%;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 .header__container {
     max-width: 1024px;
     margin: 0 auto;
@@ -19,8 +23,129 @@ body {
 
 .current-city__container {
     max-width: 1024px;
-    margin: 0 auto;
-    height: 500px;
+    margin: 0 auto 20px;
     border: 2px solid white;
     border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
+
+.current-city__location-info {
+    display: flex;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.current-city__city {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    color: whitesmoke;
+    margin-right: 10px;
+}
+
+.current-city__country {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    color: whitesmoke;
+    margin-right: 10px;
+}
+
+.current-city__date {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    color: whitesmoke;
+    margin-right: 10px;
+}
+
+.current-city__curent-day {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    color: whitesmoke;
+}
+
+.current-city__current-temp {
+    margin: 0 auto;
+}
+
+.current-city__temp {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 100px;
+    color: whitesmoke;
+}
+
+.current-city__main {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    color: whitesmoke;
+    text-align: center;
+}
+
+.current-city__main-info {
+    display: flex;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.current-city__feels-like {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+    margin-right: 20px;
+}
+
+.current-city__wind {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+    margin-right: 20px;
+}
+
+.current-city__pressure {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+    margin-right: 20px;
+}
+
+.current-city__visibility {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+    margin-right: 20px;
+}
+
+.current-city__humidity {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+}
+
+.current-city__weekly {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid  whitesmoke;
+    padding-top: 20px;
+}
+
+.current-city__weekday {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+}
+
+.current-city__day-temp {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    color: whitesmoke;
+    margin-bottom: 10px;
+}
+
+.current-city__day-main {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    color: whitesmoke;
+}
+
+

@@ -1,24 +1,19 @@
-import { getWeather } from "./getWeather";
-
-const findMe = (position) =>  {
-  const {latitude, longitude} = position.coords;
-  getWeather(latitude, longitude)
-  console.log(latitude, longitude)
-};
+import { createCityByCoordinates } from "./createCityByCoordinates";
 
 const error = (e) => {
   console.log(`Произошла ошибка: ${e}`);
 };
 
 const getLocation = () => {
-  if (navigator.geolocation) {
+  if (!navigator.geolocation) {
+    console.log('Geolocation не поддерживается вашим браузером');
+  } else {
     new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject);
     })
-      .then((position) => findMe(position))
+      .then((position) => createCityByCoordinates(position))
       .catch((e) => error(e));
   }
-  console.log('Geolocation не поддерживается вашим браузером');
 };
 
 export default getLocation;
