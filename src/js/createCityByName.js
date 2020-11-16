@@ -1,4 +1,4 @@
-import { getCities, postCity } from "../api/api";
+import { getAllContacts, getCities, postCity } from "../api/api";
 
 const { gettingWeatherByCityName } = require("./getWeather");
 
@@ -58,20 +58,18 @@ const forecast = (forecast, list) => {
 const createCityByName = () => {
     searchButton.addEventListener('click', (e) => {
         e.preventDefault();
-        const container = document.createElement('div');
-        container.className = 'current-city__container';
-        const list = document.createElement('ul');
-        list.className = 'current-city__weekly'
+        // const container = document.createElement('div');
+        // container.className = 'current-city__container';
+        // const list = document.createElement('ul');
+        // list.className = 'current-city__weekly'
         if (searchInput.value === '') {
             return;
         } 
         postCity(searchInput.value);
-        gettingWeatherByCityName(searchInput.value, 'weather').then(weatherData => weather(weatherData, container));
-        gettingWeatherByCityName(searchInput.value, 'forecast').then(forecastData => forecast(forecastData, list));
-        searchInput.value = '' 
-        container.append(list);
-        currentCityContainer.append(container);
-        getCities().then(cities => console.log(cities));
+        // searchInput.value = '' 
+        // container.append(list);
+        // currentCityContainer.append(container);
+        getAllContacts().then(data => console.log(JSON.parce(data)))
     });
 };
 
