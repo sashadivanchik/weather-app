@@ -65,7 +65,7 @@ const createCityByName = () => {
         if (searchInput.value === '') {
             return;
         } 
-        postCity(searchInput.value);
+        // postCity(searchInput.value);
         // searchInput.value = '' 
         // container.append(list);
         // currentCityContainer.append(container);
