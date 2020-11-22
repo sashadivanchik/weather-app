@@ -38,7 +38,7 @@ const forecast = (forecast) => {
 
     const weekly = forecast.list.filter(reading => reading.dt_txt.includes(time));
 
-    let result = ''
+    let result = '';
 
     for (let i = 0; i <= weekly.length - 1; i += 1) {
         result += day(weekly[i])
@@ -49,8 +49,8 @@ const forecast = (forecast) => {
 
 const cityContainer = (data, container) => {
     const result = `<div class="current-city__container">
-                        ${weather(data[0])}
-                        <div class="current-city__weekly">${forecast(data[1])}</div>
+                        ${weather(data.weather)}
+                        <div class="current-city__weekly">${forecast(data.forecast)}</div>
                     </div>`;
 
     container.insertAdjacentHTML('afterbegin', result)

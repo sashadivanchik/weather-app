@@ -1,8 +1,11 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = 3000;
 const fs = require('fs');
+const { v4 } = require('uuid');
+
+const port = 3000;
+
 
 const pathToCities = path.join(__dirname, 'dataBase', 'cities.json');
 
@@ -37,7 +40,7 @@ app.get('/api/cities', (req, res) => {
 })
 
 app.post('/api/addCity', (req, res) => {
-    const contact = {...req.body };
+    const contact = {...req.body, id: v4() };
     const contacts = readJson(pathToCities);
     contacts.push(contact);
     overwrite(pathToCities, JSON.stringify(contacts, null, 4))

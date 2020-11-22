@@ -1,5 +1,4 @@
-export const postCity = async (cityName) => {
-    console.log(cityName)
+export const postCity = async (cityName) => { 
     const city = {
         city: cityName
     };
@@ -20,8 +19,4 @@ export const getCities = async () => {
     } catch (e) {
         console.error(`ERROR MESSAGE: ${e}`);
     }
-};
-
-export const getAllContacts = async () => {
-    return await getCities('/api/contacts');
 };

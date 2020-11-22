@@ -1,19 +1,19 @@
-import { getAllContacts, getCities, postCity } from "../api/api";
+import { getCities, postCity } from "../api/api";
 
 const { gettingWeatherByCityName } = require("./getWeather");
 
 const searchInput = document.querySelector('.js-search-input');
 const searchButton = document.querySelector('.js-search-button');
 const currentCityContainer = document.querySelector('.js-cities');
-
+const list = document.createElement('ul');
 const time = '18:00:00';
 
 const weekdayName = (date, lang) => {
     const ms = date * 1000;
-    return new Date(ms).toLocaleString(lang, {weekday: 'long'});
+    return new Date(ms).toLocaleString(lang, { weekday: 'long' });
 };
 
-const weeklyDay = (day) => {   
+const weeklyDay = (day) => {
     return `<div class="current-city__day-info">
                 <div class="current-city__weekday">${weekdayName(day.dt)}</div>
                 <img class="current-city__weekday-icon" src=http://openweathermap.org/img/wn/${day.weather[0].icon}.png alt="icon">
@@ -37,39 +37,48 @@ const weather = (weather, container) => {
                         <div class="current-city__feels-like">Feels like ${weather.main.feels_like.toFixed(0)}&deg</div>
                         <div class="current-city__wind">Wind ${weather.wind.deg} ${weather.wind.speed} km/h</div>
                         <div class="current-city__pressure">Barometer ${weather.main.pressure} mb</div>
-                        <div class="current-city__visibility">Visibility ${weather.visibility/1000} km</div>
+                        <div class="current-city__visibility">Visibility ${weather.visibility / 1000} km</div>
                         <div class="current-city__humidity">Humidity ${weather.main.humidity} %</div>
                     </div>`
 
     container.insertAdjacentHTML("afterbegin", result)
 };
 
-const forecast = (forecast, list) => {
-    const weekly = forecast.list.filter(reading => reading.dt_txt.includes(time));
+// const forecast = (forecast, list) => {
+//     const weekly = forecast.list.filter(reading => reading.dt_txt.includes(time));
 
-    for (let i = 0; i < weekly.length - 1; i++) {
-        const item = document.createElement('li');
-        item.className = 'current-city__item'
-        item.innerHTML = weeklyDay(weekly[i]);
-        list.append(item)
-    };
+//     for (let i = 0; i < weekly.length - 1; i++) {
+//         const item = document.createElement('li');
+//         item.className = 'current-city__item'
+//         item.innerHTML = weeklyDay(weekly[i]);
+//         list.append(item)
+//     };
+// };
+
+const createList = (list) => {
+};
+
+const createCitiesList = (list) => {   
+    const types = ['weather', 'forecast'];
+
+    const  cities = list.map((item) => {
+        return gettingWeatherByCityName(item.city, types);
+    });
+
+    Promise.all(cities).then(data => createList(data));  
 };
 
 const createCityByName = () => {
     searchButton.addEventListener('click', (e) => {
         e.preventDefault();
-        // const container = document.createElement('div');
-        // container.className = 'current-city__container';
-        // const list = document.createElement('ul');
-        // list.className = 'current-city__weekly'
         if (searchInput.value === '') {
             return;
         } 
-        // postCity(searchInput.value);
-        // searchInput.value = '' 
-        // container.append(list);
-        // currentCityContainer.append(container);
-        getAllContacts().then(data => console.log(JSON.parce(data)))
+        list.innerHTML = '';
+        postCity(searchInput.value).then(() => {
+            getCities().then(citiesList => createCitiesList(citiesList))
+        })
+        searchInput.value = '' 
     });
 };
 
