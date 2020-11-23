@@ -1,28 +1,17 @@
 import { getCities, postCity } from "../api/api";
+import { src } from "../utils/getIconSrc";
+import { weekdayName } from "../utils/getWeekdayName";
 
 const { gettingWeatherByCityName } = require("./getWeather");
 
 const searchInput = document.querySelector('.js-search-input');
 const searchButton = document.querySelector('.js-search-button');
 const currentCityContainer = document.querySelector('.js-cities');
-const list = document.createElement('ul');
+const citiesList = document.createElement('div');
+
 const time = '18:00:00';
 
-const weekdayName = (date, lang) => {
-    const ms = date * 1000;
-    return new Date(ms).toLocaleString(lang, { weekday: 'long' });
-};
-
-const weeklyDay = (day) => {
-    return `<div class="current-city__day-info">
-                <div class="current-city__weekday">${weekdayName(day.dt)}</div>
-                <img class="current-city__weekday-icon" src=http://openweathermap.org/img/wn/${day.weather[0].icon}.png alt="icon">
-                <div class="current-city__day-temp">${day.main.temp.toFixed(0)}&deg C</div>
-                <div class="current-city__day-main">${day.weather[0].description}</div>
-            </div>`
-};
-
-const weather = (weather, container) => {
+const weather = (weather) => {
     const result = `<div class="current-city__location-info">
                         <div class="current-city__city">${weather.name}, </div>
                         <div class="current-city__country">${weather.sys.country}</div>
@@ -40,22 +29,45 @@ const weather = (weather, container) => {
                         <div class="current-city__visibility">Visibility ${weather.visibility / 1000} km</div>
                         <div class="current-city__humidity">Humidity ${weather.main.humidity} %</div>
                     </div>`
-
-    container.insertAdjacentHTML("afterbegin", result)
+    return result;
 };
 
-// const forecast = (forecast, list) => {
-//     const weekly = forecast.list.filter(reading => reading.dt_txt.includes(time));
+const forecast = (forecast) => {
+    const day = (day) => {   
+        return `<div class="current-city__day-info">
+                    <div class="current-city__weekday">${weekdayName(day.dt)}</div>
+                    <img class="current-city__weekday-icon" src=${src(day.weather[0].icon)} alt="icon">
+                    <div class="current-city__day-temp">${day.main.temp.toFixed(0)}&deg C</div>
+                    <div class="current-city__day-main">${day.weather[0].description}</div>
+                </div>`
+    };
 
-//     for (let i = 0; i < weekly.length - 1; i++) {
-//         const item = document.createElement('li');
-//         item.className = 'current-city__item'
-//         item.innerHTML = weeklyDay(weekly[i]);
-//         list.append(item)
-//     };
-// };
+    const weekly = forecast.list.filter(reading => reading.dt_txt.includes(time));
+
+    let result = '';
+
+    for (let i = 0; i <= weekly.length - 1; i += 1) {
+        result += day(weekly[i])
+    };
+
+    return result;
+};
 
 const createList = (list) => {
+    citiesList.innerHTML = '';
+
+    for (let i = 0; i < list.length; i++) {
+        const city = document.createElement('div');
+        const weekly =  document.createElement('div');
+        city.className = 'current-city__container'
+        weekly.className = 'current-city__weekly'
+        weekly.innerHTML = forecast(list[i].forecast)
+        city.innerHTML = weather(list[i].weather)
+        city.append(weekly);
+        citiesList.append(city);
+    };
+    
+    currentCityContainer.append(citiesList)
 };
 
 const createCitiesList = (list) => {   
@@ -74,7 +86,6 @@ const createCityByName = () => {
         if (searchInput.value === '') {
             return;
         } 
-        list.innerHTML = '';
         postCity(searchInput.value).then(() => {
             getCities().then(citiesList => createCitiesList(citiesList))
         })
