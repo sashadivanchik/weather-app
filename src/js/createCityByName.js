@@ -1,4 +1,4 @@
-import { getCities, postCity } from "../api/api";
+import { deleteCity, getCities, postCity } from "../api/api";
 import { src } from "../utils/getIconSrc";
 import { weekdayName } from "../utils/getWeekdayName";
 
@@ -11,7 +11,7 @@ const citiesList = document.createElement('div');
 
 const time = '18:00:00';
 
-const weather = (weather) => {
+const weather = (weather, id) => {
     const result = `<div class="current-city__location-info">
                         <div class="current-city__city">${weather.name}, </div>
                         <div class="current-city__country">${weather.sys.country}</div>
@@ -28,7 +28,9 @@ const weather = (weather) => {
                         <div class="current-city__pressure">Barometer ${weather.main.pressure} mb</div>
                         <div class="current-city__visibility">Visibility ${weather.visibility / 1000} km</div>
                         <div class="current-city__humidity">Humidity ${weather.main.humidity} %</div>
-                    </div>`
+                    </div>
+                    <button class="current-city__delete-button" data-button-id=${id}>delete</button>
+                    `
     return result;
 };
 
@@ -62,7 +64,7 @@ const createList = (list) => {
         city.className = 'current-city__container'
         weekly.className = 'current-city__weekly'
         weekly.innerHTML = forecast(list[i].forecast)
-        city.innerHTML = weather(list[i].weather)
+        city.innerHTML = weather(list[i].weather, list[i].id)
         city.append(weekly);
         citiesList.append(city);
     };
@@ -70,17 +72,33 @@ const createList = (list) => {
     currentCityContainer.append(citiesList)
 };
 
-const createCitiesList = (list) => {   
-    const types = ['weather', 'forecast'];
+const createCitiesList = (list) => { 
 
-    const  cities = list.map((item) => {
-        return gettingWeatherByCityName(item.city, types);
-    });
+    if (list.length) {
+        const types = ['weather', 'forecast'];
 
-    Promise.all(cities).then(data => createList(data));  
+        const cities = list.map((item) => {
+            return gettingWeatherByCityName(item.city, types, item.id);
+        });
+    
+        Promise.all(cities).then(data => createList(data)); 
+    }
+    
+    citiesList.innerHTML = '';  
 };
 
+citiesList.addEventListener('click', (event) => {
+    const target = event.target;
+
+    if (target.className === 'current-city__delete-button') {
+        console.log(target.dataset.buttonId);
+        deleteCity(target.dataset.buttonId).then(citiesList => createCitiesList(citiesList))
+    }
+})
+
 const createCityByName = () => {
+    getCities().then(citiesList => createCitiesList(citiesList))
+
     searchButton.addEventListener('click', (e) => {
         e.preventDefault();
         if (searchInput.value === '') {

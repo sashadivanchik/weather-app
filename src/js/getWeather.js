@@ -1,5 +1,4 @@
-export const gettingWeatherByCityName = async (cityName, types) => {
-
+export const gettingWeatherByCityName = async (cityName, types, cityId) => {
     let requests = types.map((type) => {
         return fetch(`http://api.openweathermap.org/data/2.5/${type}?q=${cityName}&units=metric&appid=bdac2775cb8c6d58f608195af81c6184`);
     })
@@ -17,7 +16,8 @@ export const gettingWeatherByCityName = async (cityName, types) => {
         .then(data => {
             return {
                 weather: data[0],
-                forecast: data[1]
+                forecast: data[1],
+                id: cityId
             }
         })
 };

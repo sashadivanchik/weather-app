@@ -47,6 +47,13 @@ app.post('/api/addCity', (req, res) => {
     res.status(201).json({ message: 'add city' })
 })
 
+app.delete('/api/deleteCity/:id', (req, res) => {
+    const cities = readJson(pathToCities);
+    const filtered = cities.filter(item => item.id !== req.params.id);
+    overwrite(pathToCities, JSON.stringify(filtered, null, 4));
+    res.status(200).json({ message: 'remove contact'});   
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
