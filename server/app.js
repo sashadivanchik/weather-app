@@ -1,8 +1,11 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = 3000;
 const fs = require('fs');
+const { v4 } = require('uuid');
+
+const port = 3000;
+
 
 const pathToCities = path.join(__dirname, 'dataBase', 'cities.json');
 
@@ -37,11 +40,18 @@ app.get('/api/cities', (req, res) => {
 })
 
 app.post('/api/addCity', (req, res) => {
-    const contact = {...req.body };
+    const contact = {...req.body, id: v4() };
     const contacts = readJson(pathToCities);
     contacts.push(contact);
     overwrite(pathToCities, JSON.stringify(contacts, null, 4))
     res.status(201).json({ message: 'add city' })
+})
+
+app.delete('/api/deleteCity/:id', (req, res) => {
+    const cities = readJson(pathToCities);
+    const filtered = cities.filter(item => item.id !== req.params.id);
+    overwrite(pathToCities, JSON.stringify(filtered, null, 4));
+    res.status(200).json({ message: 'remove contact'});   
 })
 
 app.listen(port, () => {
